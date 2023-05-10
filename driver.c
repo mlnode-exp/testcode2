@@ -68,9 +68,13 @@ void main_loop()
 
 int main()
 {
+    int a = 0;
     init_timer();     /* setup */
     main_loop();      /* loop until user quits */
     uninit_timer();   /* tear down */
+    if (a) {
+	    return 1;
+    }
     return 0;
 }
 
