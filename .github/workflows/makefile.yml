@@ -35,11 +35,11 @@ jobs:
     - name: Build project
       run: cpptesttrace make clean all
 
-    - name: Prepare instumentation
-      run: make CC="cpptestcc.exe -compiler gcc_9-64 -line-coverage -- g++" LINK_FLAGS="/cygdrive/c/Apps/dtp/sesja/cpptest/runtime/lib/cpptest64.a" clean all
+    # - name: Prepare instumentation
+    #   run: make CC="cpptestcc.exe -compiler gcc_9-64 -line-coverage -- g++" LINK_FLAGS="/cygdrive/c/Apps/dtp/sesja/cpptest/runtime/lib/cpptest64.a" clean all
 
-    - name: Execute
-      run: ./timer.exe
+    # - name: Execute
+    #   run: ./timer.exe
       
     # Runs code analysis with C/C++test.
     - name: Run C/C++test
@@ -47,9 +47,9 @@ jobs:
       uses: parasoft/run-cpptest-action@2.0.0
       # Uncomment if you are using C/C++test 2020.2 to generate a SARIF report:
       with:
-          input: 'cpptest_results.clog'
+          input: 'cpptest.bdf'
           compilerConfig: 'gcc_9-64'
-          testConfig: 'builtin://Coverage'
+          testConfig: 'builtin://Recommended Rules'
       #   reportFormat: xml,html,custom
       #   additionalParams: '-property report.custom.extension=sarif -property report.custom.xsl.file=${PARASOFT_SARIF_XSL}'
 
