@@ -33,18 +33,23 @@ jobs:
     # Builds your Make project using 'cpptesttrace' to collect input data for code analysis.
     # Be sure 'cpptesttrace' is available on $PATH.
     - name: Build project
-      run: cpptesttrace --cpptesttraceOutputFile=cpptest2.bdf make clean all
+      run: cpptesttrace make clean all
 
+    - name: Prepare instumentation
+      run: make `CC="cpptestcc.exe -compiler gcc_9-64 -line-coverage -- g++" LINK_FLAGS="$CPPTEST_HOME/runtime/lib/cpptest64.a" clean all`
+
+    - name: Execute
+      run: timer.exe
+      
     # Runs code analysis with C/C++test.
     - name: Run C/C++test
       # Use the 'run-cpptest-action' GitHub action.
       uses: parasoft/run-cpptest-action@2.0.0
       # Uncomment if you are using C/C++test 2020.2 to generate a SARIF report:
       with:
-          input: 'cpptest2.bdf'
+          input: 'cpptest_results.clog'
           compilerConfig: 'gcc_9-64'
-          testConfig: 'builtin://Flow Analysis Standard'
-          additionalParams: '-showdetails'
+          testConfig: 'builtin://Coverage'
       #   reportFormat: xml,html,custom
       #   additionalParams: '-property report.custom.extension=sarif -property report.custom.xsl.file=${PARASOFT_SARIF_XSL}'
 
