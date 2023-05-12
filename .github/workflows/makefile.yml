@@ -39,7 +39,7 @@ jobs:
       run: make CC="cpptestcc.exe -compiler gcc_9-64 -line-coverage -- g++" LINK_FLAGS="/cygdrive/c/Apps/dtp/sesja/cpptest/runtime/lib/cpptest64.a" clean all
 
     - name: Execute
-      run: timer.exe
+      run: ./timer.exe
       
     # Runs code analysis with C/C++test.
     - name: Run C/C++test
