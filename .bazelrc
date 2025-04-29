@@ -1,0 +1,11 @@
+# Define 'cpptest_coverage' configuration to enable coverage analysis with Parasoft C/C++test CT.
+#
+# To use the configuration, execute Bazel build:
+# > bazel run --config=cpptest_coverage
+#
+# Notes:
+# 1. Be sure 'cpptest' repository was defined in WORKSPACE.bazel.
+# 2. Be sure 'cpptestcc-bazel-psrc' file group was defined in BUILD.bazel.
+# 3. Use 'cpptestcc-bazel.psrc' file for configuring options for the code instrumentation engine (cpptestcc).
+
+build:cpptest_coverage @cpptest//:coverage --@cpptest//:target=//:Timer --@cpptest//:psrc_file=//:cpptestcc-bazel-psrc
