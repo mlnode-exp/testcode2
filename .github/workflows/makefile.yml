@@ -41,7 +41,7 @@ jobs:
       run: cmake --build build
 
     - name: Run app
-      run: build/timer
+      run: rintf '3\n4\n9\n' | build/timer
 
     - name: Collect coverage
       run: cmake --build build --target cpptestcov-compute
