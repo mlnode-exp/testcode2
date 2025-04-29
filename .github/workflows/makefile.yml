@@ -1,4 +1,3 @@
-
 # This is a basic workflow to help you get started with the Run C/C++test action for Make-based project.
 name: C/C++test with Make
 
@@ -16,54 +15,44 @@ on:
 jobs:
   run-cpptest-make:
     name: Analyze project with C/C++test
-    permissions:
-      # required for all workflows
-      security-events: write
 
     # Specifies the type of runner that the job will run on.
     runs-on: self-hosted
+
+    # Specifies required permissions for upload-sarif action
+    permissions:
+      # required for all workflows
+      security-events: write
+      # only required for workflows in private repositories
+      actions: read
+      contents: read
 
     # Steps represent a sequence of tasks that will be executed as part of the job.
     steps:
 
     # Checks out your repository under $GITHUB_WORKSPACE, so that your job can access it.
     - name: Checkout code
-      uses: actions/checkout@v3
-    
-    # Builds your Make project using 'cpptesttrace' to collect input data for code analysis.
-    # Be sure 'cpptesttrace' is available on $PATH.
+      uses: actions/checkout@v4
+
+    - name: Configure project
+      run: cmake -DCPPTEST_COVERAGE=ON -S . -B build
+
     - name: Build project
-      run: cpptesttrace make clean all
+      run: cmake --build build
 
-    # - name: Prepare instumentation
-    #   run: make CC="cpptestcc.exe -compiler gcc_9-64 -line-coverage -- g++" LINK_FLAGS="/cygdrive/c/Apps/dtp/sesja/cpptest/runtime/lib/cpptest64.a" clean all
+    - name: Run app
+      run: build/timer
 
-    # - name: Execute
-    #   run: ./timer.exe
-      
-    # Runs code analysis with C/C++test.
-    - name: Run C/C++test
-      # Use the 'run-cpptest-action' GitHub action.
-      uses: parasoft/run-cpptest-action@2.0.0
-      # Uncomment if you are using C/C++test 2020.2 to generate a SARIF report:
-      with:
-          input: 'cpptestscan.bdf'
-          compilerConfig: 'gcc_9-64'
-          testConfig: 'builtin://Recommended Rules'
-      #   reportFormat: xml,html,custom
-      #   additionalParams: '-property report.custom.extension=sarif -property report.custom.xsl.file=${PARASOFT_SARIF_XSL}'
+    - name: Collect coverage
+      run: cmake --build build --target cpptestcov-compute
 
-    # Uploads analysis results in the SARIF format, so that they are displayed as GitHub code scanning alerts.
-    - name: Upload results (SARIF)
-      if: always()
-      uses: github/codeql-action/upload-sarif@v2
-      with:
-        sarif_file: reports/report.sarif
-    
     # Uploads an archive that includes all report files (.xml, .html, .sarif).
     - name: Archive reports
       if: always()
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: CpptestReports
-        path: reports/*.*
+        path: |
+          reports/*.*
+          .coverage/lastrun/*.*
+
