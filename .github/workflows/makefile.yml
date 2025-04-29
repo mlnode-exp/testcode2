@@ -46,6 +46,18 @@ jobs:
     - name: Collect coverage
       run: cmake --build build --target cpptestcov-compute
 
+    - name: Trace project build for static analysis
+      run: cpptesttrace make clean all
+
+    # Runs code analysis with C/C++test.
+    - name: Run static analysis
+      # Use the 'run-cpptest-action' GitHub action.
+      uses: parasoft/run-cpptest-action@2.0.2
+      with:
+        compilerConfig: 'gcc_13-64'
+        testConfig: 'builtin://Recommended Rules'
+        input: 'cpptestscan.bdf'
+
     # Uploads an archive that includes all report files (.xml, .html, .sarif).
     - name: Archive reports
       if: always()
