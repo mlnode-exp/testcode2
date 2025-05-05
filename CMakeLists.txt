@@ -5,10 +5,8 @@ project(Timer)
 set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
 
 if(CPPTEST_COVERAGE)
-  include(cpptest-coverage.cmake)
+  include(../../integration/cmake/cpptest-coverage.cmake)
 endif()
-
-add_compile_definitions(STDINPUT)
 
 add_executable(timer
  clock.c

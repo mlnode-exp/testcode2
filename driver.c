@@ -39,7 +39,7 @@ void main_loop()
         case 1:
             res = add_timer();
             if (ERROR_CODE == res) {
-                print_string("\nError ... timer not added!\n"); // parasoft-cov-suppress "will be tested manually"
+                print_string("\nError ... timer not added!\n");
             } else {
                 print_string("\nTimer added!\n");
             }
