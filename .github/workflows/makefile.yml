@@ -44,9 +44,13 @@ jobs:
       # Use the 'run-cpptest-action' GitHub action.
       uses: parasoft/run-cpptest-action@2.0.2
       # Optional parameters for 'run-cpptest-action'.
-      with:         
-        # For CMake-based projects, use a compile_commands.json file as the input for analysis. 
-        input: cpptestscan.bdf
+      with:
+        installDir: 'C:/Apps/dtp/latest/x64/cpptest'
+        input: 'cpptestscan.bdf'
+        testConfig: 'builtin://MISRA C 2025'
+        compilerConfig: gcc_13-64
+        reportDir: 'myreports'
+        additionalParams: '-property console.verbosity.level=high'
         # Uncomment if you are using C/C++test 2020.2 to generate a SARIF report:         
         # reportFormat: xml,html,custom
         # additionalParams: '-property report.custom.extension=sarif -property report.custom.xsl.file={test-param}PARASOFT_SARIF_XSL{test-param}
