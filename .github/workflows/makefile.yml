@@ -45,7 +45,7 @@ jobs:
       uses: parasoft/run-cpptest-action@2.0.2
       # Optional parameters for 'run-cpptest-action'.
       with:
-        installDir: 'C:/Apps/dtp/latest/x64/cpptest'
+        installDir: '/home/mlyko/sesja.2025.1/cpptest'
         input: 'cpptestscan.bdf'
         testConfig: 'builtin://MISRA C 2025'
         compilerConfig: gcc_13-64
