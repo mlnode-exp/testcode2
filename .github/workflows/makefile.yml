@@ -60,7 +60,7 @@ jobs:
       if: always()
       uses: github/codeql-action/upload-sarif@v3
       with:         
-        sarif_file: reports/report.sarif
+        sarif_file: myreports/report.sarif
     
     # Uploads an archive that includes all report files (.xml, .html, .sarif).
     - name: Archive reports
@@ -68,4 +68,4 @@ jobs:
       uses: actions/upload-artifact@v4
       with:         
         name: CpptestReports
-        path: reports/*.*
+        path: myreports/*.*
