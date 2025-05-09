@@ -139,6 +139,12 @@ void format_timer_record(int idx, char* buf)
     
 }
 
+void foo()
+{
+    while(1) {
+    }
+}
+
 void list_timers()
 {
     char buf[BUF_SIZE];
