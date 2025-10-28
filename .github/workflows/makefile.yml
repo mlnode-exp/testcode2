@@ -41,22 +41,24 @@ jobs:
 
     # Runs code analysis with C/C++test.
     - name: Run C/C++test
+      # Use the 'run-cpptest-action' GitHub action.
       uses: parasoft/run-cpptest-action@2.0.2
-      with:     # C/C++test will use options from 'config.properties'.
-        additionalParams: '-property report.format=sarif'
-        commandLinePattern: '${cpptestcli} -data ../workspace -config "${testConfig}" -report "${reportDir}" -bdf "${input}" ${additionalParams}'
+      # Uncomment if you are using C/C++test 2020.2 to generate a SARIF report:
+      # with:
+      #   reportFormat: xml,html,custom
+      #   additionalParams: '-property report.custom.extension=sarif -property report.custom.xsl.file=${PARASOFT_SARIF_XSL}'
 
     # Uploads analysis results in the SARIF format, so that they are displayed as GitHub code scanning alerts.
     - name: Upload results (SARIF)
       if: always()
       uses: github/codeql-action/upload-sarif@v3
-      with:         
+      with:
         sarif_file: reports/report.sarif
     
     # Uploads an archive that includes all report files (.xml, .html, .sarif).
     - name: Archive reports
       if: always()
       uses: actions/upload-artifact@v4
-      with:         
+      with:
         name: CpptestReports
         path: reports/*.*
