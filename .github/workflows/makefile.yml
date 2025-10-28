@@ -46,13 +46,20 @@ jobs:
     - name: Execute
       run: ./timer.exe
     
-    - name: Run C/C++test
+    - name: Run C/C++test - coverage
       # Use the 'run-cpptest-action' GitHub action.
       uses: parasoft/run-cpptest-action@2.0.2
       with:
           input: 'cpptest_results.clog'
           compilerConfig: 'gcc_9-64'
           testConfig: 'builtin://Coverage'
+
+    - name: Run C/C++test - static
+      # Use the 'run-cpptest-action' GitHub action.
+      uses: parasoft/run-cpptest-action@2.0.2
+      with:
+          compilerConfig: 'gcc_13-64'
+          testConfig: 'builtin://Recommended Rules'
      
       # Uncomment if you are using C/C++test 2020.2 to generate a SARIF report:
       # with:
