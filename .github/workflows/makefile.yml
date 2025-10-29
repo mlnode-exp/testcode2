@@ -40,7 +40,8 @@ jobs:
       run: cpptesttrace make clean all
 
     - name: Prepare instumentation
-      run: make CC="cpptestcc -compiler gcc_11-64 -line-coverage -- g++" LINK_FLAGS="/home/mlyko/apps/dtp/cpptest/runtime/lib/cpptest64.a" clean all
+      #run: make CC="cpptestcc -compiler gcc_11-64 -line-coverage -- g++" LINK_FLAGS="/home/mlyko/apps/dtp/cpptest/runtime/lib/libcpptest64.so" clean all
+      run: make CC="cpptestcc -compiler gcc_11-64 -line-coverage -- g++" LINK_FLAGS="c:/Apps/dtp/latest/x64/cpptest/runtime/lib/cpptest64.a" clean all
     
     - name: Execute
       run: ./timer.exe
