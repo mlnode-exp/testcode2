@@ -54,12 +54,12 @@ jobs:
           compilerConfig: 'gcc_11-64'
           testConfig: 'builtin://Coverage'
 
-    #- name: Run C/C++test - static
-    #  # Use the 'run-cpptest-action' GitHub action.
-    #  uses: parasoft/run-cpptest-action@2.0.2
-    #  with:
-    #      compilerConfig: 'gcc_11-64'
-    #      testConfig: 'builtin://Recommended Rules'
+    - name: Run C/C++test - static
+      # Use the 'run-cpptest-action' GitHub action.
+      uses: parasoft/run-cpptest-action@2.0.2
+      with:
+          compilerConfig: 'gcc_11-64'
+          testConfig: 'builtin://Recommended Rules'
      
       # Uncomment if you are using C/C++test 2020.2 to generate a SARIF report:
       # with:
