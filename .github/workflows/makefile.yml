@@ -58,7 +58,7 @@ jobs:
       # Use the 'run-cpptest-action' GitHub action.
       uses: parasoft/run-cpptest-action@2.0.2
       with:
-          compilerConfig: 'gcc_13-64'
+          compilerConfig: 'gcc_11-64'
           testConfig: 'builtin://Recommended Rules'
      
       # Uncomment if you are using C/C++test 2020.2 to generate a SARIF report:
