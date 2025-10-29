@@ -39,27 +39,26 @@ jobs:
     - name: Build project
       run: cpptesttrace make clean all
 
-    #- name: Prepare instumentation
-    #  run: make CC="cpptestcc -compiler gcc_13-64 -line-coverage -- g++" LINK_FLAGS="/home/mlyko/apps/dtp/cpptest/runtime/lib/libcpptest64.so" clean all
-    # Runs code analysis with C/C++test.
+    - name: Prepare instumentation
+      run: make CC="cpptestcc -compiler gcc_11-64 -line-coverage -- g++" LINK_FLAGS="/home/mlyko/apps/dtp/cpptest/runtime/lib/cpptest64.a" clean all
     
-    #- name: Execute
-    #  run: ./timer.exe
+    - name: Execute
+      run: ./timer.exe
     
-    #- name: Run C/C++test - coverage
-    #  # Use the 'run-cpptest-action' GitHub action.
-    #  uses: parasoft/run-cpptest-action@2.0.2
-    #  with:
-    #      input: 'cpptest_results.clog'
-    #      compilerConfig: 'gcc_9-64'
-    #      testConfig: 'builtin://Coverage'
-
-    - name: Run C/C++test - static
+    - name: Run C/C++test - coverage
       # Use the 'run-cpptest-action' GitHub action.
       uses: parasoft/run-cpptest-action@2.0.2
       with:
+          input: 'cpptest_results.clog'
           compilerConfig: 'gcc_11-64'
-          testConfig: 'builtin://Recommended Rules'
+          testConfig: 'builtin://Coverage'
+
+    #- name: Run C/C++test - static
+    #  # Use the 'run-cpptest-action' GitHub action.
+    #  uses: parasoft/run-cpptest-action@2.0.2
+    #  with:
+    #      compilerConfig: 'gcc_11-64'
+    #      testConfig: 'builtin://Recommended Rules'
      
       # Uncomment if you are using C/C++test 2020.2 to generate a SARIF report:
       # with:
