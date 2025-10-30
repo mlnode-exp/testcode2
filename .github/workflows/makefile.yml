@@ -63,7 +63,12 @@ jobs:
       with:
           # compilerConfig: 'gcc_11-64'
           compilerConfig: 'gcc_11-64'
-          testConfig: 'builtin://Recommended Rules'
+          testConfig: 'builtin://MISRA C 2023 (MISRA C 2012)'
+          reportFormat: sarif,html
+          reportDir: reports2
+          input: cpptestscan.bdf
+          additionalParams: '-property console.verbosity.level=high'
+          installDir: 'C:/Apps/dtp/latest/x64/cpptest'
      
       # Uncomment if you are using C/C++test 2020.2 to generate a SARIF report:
       # with:
@@ -75,7 +80,7 @@ jobs:
       if: always()
       uses: github/codeql-action/upload-sarif@v3
       with:
-        sarif_file: reports/report.sarif
+        sarif_file: reports2/report.sarif
     
     # Uploads an archive that includes all report files (.xml, .html, .sarif).
     - name: Archive reports
