@@ -60,7 +60,8 @@ jobs:
       # Use the 'run-cpptest-action' GitHub action.
       uses: parasoft/run-cpptest-action@2.0.2
       with:
-          compilerConfig: 'gcc_11-64'
+          # compilerConfig: 'gcc_11-64'
+          compilerConfig: 'vc_14_2'
           testConfig: 'builtin://Recommended Rules'
           input: 'build/Timer.sln'
      
