@@ -97,6 +97,7 @@ void add_timer_record(struct timer_record* tr)
     if (curr_index < max_records) {
         timer_records[curr_index++] = tr;
     } else {
+        print_string("\nERROR: \n");
         print_string("\nAll timers used ... timer not added\n");
     }
 }
