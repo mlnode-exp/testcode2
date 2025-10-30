@@ -36,11 +36,11 @@ jobs:
     
     # Builds your Make project using 'cpptesttrace' to collect input data for code analysis.
     # Be sure 'cpptesttrace' is available on $PATH.
-    #- name: Build project (make)
-    #  run: cpptesttrace make clean all
+    - name: Build project (make)
+      run: cpptesttrace make clean all
 
-    - name: Build project (cmake)
-      run: cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1 -S . -B build
+    #- name: Build project (cmake)
+    #  run: cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1 -S . -B build
     
     #- name: Prepare instumentation
     #  #run: make CC="cpptestcc -compiler gcc_11-64 -line-coverage -- g++" LINK_FLAGS="/home/mlyko/apps/dtp/cpptest/runtime/lib/libcpptest64.so" clean all
@@ -66,7 +66,7 @@ jobs:
           #testConfig: 'builtin://MISRA C 2023 (MISRA C 2012)'
           #reportFormat: sarif,html
           #reportDir: reports2
-          input: build/compile_commands.json
+          #input: cpptestscan.bdf
           #additionalParams: '-property console.verbosity.level=high'
           #installDir: 'C:/Apps/dtp/latest/x64/cpptest'
      
