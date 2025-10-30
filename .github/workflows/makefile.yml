@@ -36,23 +36,25 @@ jobs:
     
     # Builds your Make project using 'cpptesttrace' to collect input data for code analysis.
     # Be sure 'cpptesttrace' is available on $PATH.
-    - name: Build project
-      run: cpptesttrace make clean all
+    #- name: Build project (make)
+    #  run: cpptesttrace make clean all
 
-    - name: Prepare instumentation
-      #run: make CC="cpptestcc -compiler gcc_11-64 -line-coverage -- g++" LINK_FLAGS="/home/mlyko/apps/dtp/cpptest/runtime/lib/libcpptest64.so" clean all
-      run: make CC="cpptestcc -compiler gcc_11-64 -line-coverage -- g++" LINK_FLAGS="c:/Apps/dtp/latest/x64/cpptest/runtime/lib/cpptest64.a" clean all
+    - name: Build project (cmake)
+      run: cmake -S . -B build
+    #- name: Prepare instumentation
+    #  #run: make CC="cpptestcc -compiler gcc_11-64 -line-coverage -- g++" LINK_FLAGS="/home/mlyko/apps/dtp/cpptest/runtime/lib/libcpptest64.so" clean all
+    #  run: make CC="cpptestcc -compiler gcc_11-64 -line-coverage -- g++" LINK_FLAGS="c:/Apps/dtp/latest/x64/cpptest/runtime/lib/cpptest64.a" clean all
     
-    - name: Execute
-      run: ./timer.exe
+    #- name: Execute
+    #  run: ./timer.exe
     
-    - name: Run C/C++test - coverage
-      # Use the 'run-cpptest-action' GitHub action.
-      uses: parasoft/run-cpptest-action@2.0.2
-      with:
-          input: 'cpptest_results.clog'
-          compilerConfig: 'gcc_11-64'
-          testConfig: 'builtin://Coverage'
+    #- name: Run C/C++test - coverage
+    #  # Use the 'run-cpptest-action' GitHub action.
+    #  uses: parasoft/run-cpptest-action@2.0.2
+    #  with:
+    #      input: 'cpptest_results.clog'
+    #      compilerConfig: 'gcc_11-64'
+    #      testConfig: 'builtin://Coverage'
 
     - name: Run C/C++test - static
       # Use the 'run-cpptest-action' GitHub action.
@@ -60,6 +62,7 @@ jobs:
       with:
           compilerConfig: 'gcc_11-64'
           testConfig: 'builtin://Recommended Rules'
+          input: 'build/Timer.sln'
      
       # Uncomment if you are using C/C++test 2020.2 to generate a SARIF report:
       # with:
