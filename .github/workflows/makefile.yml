@@ -36,11 +36,12 @@ jobs:
     
     # Builds your Make project using 'cpptesttrace' to collect input data for code analysis.
     # Be sure 'cpptesttrace' is available on $PATH.
-    #- name: Build project (make)
-    #  run: cpptesttrace make clean all
+    - name: Build project (make)
+      run: cpptesttrace make clean all
 
-    - name: Build project (cmake)
-      run: cmake -S . -B build
+    #- name: Build project (cmake)
+    #  run: cmake -S . -B build
+    
     #- name: Prepare instumentation
     #  #run: make CC="cpptestcc -compiler gcc_11-64 -line-coverage -- g++" LINK_FLAGS="/home/mlyko/apps/dtp/cpptest/runtime/lib/libcpptest64.so" clean all
     #  run: make CC="cpptestcc -compiler gcc_11-64 -line-coverage -- g++" LINK_FLAGS="c:/Apps/dtp/latest/x64/cpptest/runtime/lib/cpptest64.a" clean all
@@ -61,9 +62,8 @@ jobs:
       uses: parasoft/run-cpptest-action@2.0.2
       with:
           # compilerConfig: 'gcc_11-64'
-          compilerConfig: 'vc_14_2'
+          compilerConfig: 'gcc_11-64'
           testConfig: 'builtin://Recommended Rules'
-          input: 'build/Timer.sln'
      
       # Uncomment if you are using C/C++test 2020.2 to generate a SARIF report:
       # with:
