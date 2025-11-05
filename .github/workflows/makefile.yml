@@ -14,7 +14,7 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel.
 jobs:
-  run-cpptest-cmake:
+  run-cpptest-make:
     runs-on: self-hosted
     name: Analyze project with C/C++test
     # Specifies required permissions for upload-sarif action
@@ -34,11 +34,7 @@ jobs:
 
     # Configures your CMake project. Be sure the compile_commands.json file is created.
     - name: Configure project
-      run: cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1 -S . -B build
-
-    # Builds your CMake project. (This step is optional, as it is not required for code analysis).
-    - name: Build project (optional)
-      run: cmake --build build
+      run: cpptesttrace make clean all
 
     - name: Run C/C++test
       uses: parasoft/run-cpptest-action@2.0.2
