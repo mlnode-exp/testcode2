@@ -46,6 +46,7 @@ jobs:
         # C/C++test workspace will be created in '../workspace'.
         # C/C++test will create a new project based on the provided .bdf file.
         input: build/compile_commands.json
+        additionalParams: -property bdf.import.compiler.family=gcc_13-54
         commandLinePattern: '${cpptestcli} -data ../workspace -config "${testConfig}" -report "${reportDir}" -bdf "${input}" ${additionalParams}'
     # Runs code analysis with C/C++test.
 
