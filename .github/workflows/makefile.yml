@@ -47,7 +47,7 @@ jobs:
       with:
         # C/C++test workspace will be created in '../workspace'.
         # C/C++test will create a new project based on the provided .bdf file.
-        additionalParams: '-localsettings cpptestcli.properties'
+        additionalParams: '-property report.format=sarif -property bdf.import.compiler.family=vc_14_2'
         input: build/cpptestscan.bdf
         commandLinePattern: '${cpptestcli} -data ../workspace -config "${testConfig}" -report "${reportDir}" -bdf "${input}" ${additionalParams}'
 
