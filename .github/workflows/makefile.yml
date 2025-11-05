@@ -29,13 +29,9 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
     
-    # Configures your CMake project. Be sure the compile_commands.json file is created.
-    - name: Configure project
-      run: cmake -S . -B build
-
     # Builds your CMake project. (This step is optional, as it is not required for code analysis).
     - name: Build project (optional)
-      run: cpptesttrace --cpptesttraceProjectName=Timer msbuild build/Timer.sln
+      run: cpptesttrace make clean all
     
     # Builds your Make project using 'cpptesttrace' to collect input data for code analysis.
     # Be sure 'cpptesttrace' is available on $PATH.
@@ -47,8 +43,8 @@ jobs:
       with:
         # C/C++test workspace will be created in '../workspace'.
         # C/C++test will create a new project based on the provided .bdf file.
-        additionalParams: '-property report.format=sarif -property bdf.import.compiler.family=vc_14_2'
-        input: build/cpptestscan.bdf
+        additionalParams: '-property report.format=sarif -property bdf.import.compiler.family=gcc_11-64'
+        input: cpptestscan.bdf
         commandLinePattern: '${cpptestcli} -data ../workspace -config "${testConfig}" -report "${reportDir}" -bdf "${input}" ${additionalParams}'
 
     # Runs code analysis with C/C++test.
