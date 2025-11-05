@@ -1,5 +1,6 @@
-# This is a basic workflow to help you get started with the Run C/C++test action for Make-based project.
-name: C/C++test with Make
+
+# This is a basic workflow to help you get started with the Run C/C++test action for a CMake-based project.
+name: C/C++test with CMake
 
 on:
   # Triggers the workflow on push or pull request events but only for the master (main) branch.
@@ -15,10 +16,7 @@ on:
 jobs:
   run-cpptest-make:
     name: Analyze project with C/C++test
-
-    # Specifies the type of runner that the job will run on.
     runs-on: self-hosted
-
     # Specifies required permissions for upload-sarif action
     permissions:
       # required for all workflows
@@ -27,60 +25,39 @@ jobs:
       actions: read
       contents: read
 
+    # Specifies the type of runner that the job will run on.
+    runs-on: self-hosted
+
     # Steps represent a sequence of tasks that will be executed as part of the job.
     steps:
 
     # Checks out your repository under $GITHUB_WORKSPACE, so that your job can access it.
     - name: Checkout code
       uses: actions/checkout@v4
-    
-    # Builds your Make project using 'cpptesttrace' to collect input data for code analysis.
-    # Be sure 'cpptesttrace' is available on $PATH.
-    - name: Build project (make)
-      run: cpptesttrace make clean all
 
-    #- name: Build project (cmake)
-    #  run: cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1 -S . -B build
-    
-    #- name: Prepare instumentation
-    #  #run: make CC="cpptestcc -compiler gcc_11-64 -line-coverage -- g++" LINK_FLAGS="/home/mlyko/apps/dtp/cpptest/runtime/lib/libcpptest64.so" clean all
-    #  run: make CC="cpptestcc -compiler gcc_11-64 -line-coverage -- g++" LINK_FLAGS="c:/Apps/dtp/latest/x64/cpptest/runtime/lib/cpptest64.a" clean all
-    
-    #- name: Execute
-    #  run: ./timer.exe
-    
-    #- name: Run C/C++test - coverage
-    #  # Use the 'run-cpptest-action' GitHub action.
-    #  uses: parasoft/run-cpptest-action@2.0.2
-    #  with:
-    #      input: 'cpptest_results.clog'
-    #      compilerConfig: 'gcc_11-64'
-    #      testConfig: 'builtin://Coverage'
+    # Configures your CMake project. Be sure the compile_commands.json file is created.
+    - name: Configure project
+      run: cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1 -S . -B build
 
-    - name: Run C/C++test - static
-      # Use the 'run-cpptest-action' GitHub action.
+    # Builds your CMake project. (This step is optional, as it is not required for code analysis).
+    - name: Build project (optional)
+      run: cmake --build build
+
+    - name: Run C/C++test
       uses: parasoft/run-cpptest-action@2.0.2
       with:
-          # compilerConfig: 'gcc_11-64'
-          compilerConfig: 'gcc_13-64'
-          testConfig: 'builtin://MISRA C 2023 (MISRA C 2012)'
-          reportFormat: sarif,html
-          reportDir: reports2
-          input: cpptestscan.bdf
-          additionalParams: '-property console.verbosity.level=high'
-          installDir: '/home/mlyko/apps/dtp/cpptest'
-     
-      # Uncomment if you are using C/C++test 2020.2 to generate a SARIF report:
-      # with:
-      #   reportFormat: xml,html,custom
-      #   additionalParams: '-property report.custom.extension=sarif -property report.custom.xsl.file=${PARASOFT_SARIF_XSL}'
+        # C/C++test workspace will be created in '../workspace'.
+        # C/C++test will create a new project based on the provided .bdf file.
+        input: build/compile_commands.json
+        commandLinePattern: '${cpptestcli} -data ../workspace -config "${testConfig}" -report "${reportDir}" -bdf "${input}" ${additionalParams}'
+    # Runs code analysis with C/C++test.
 
     # Uploads analysis results in the SARIF format, so that they are displayed as GitHub code scanning alerts.
     - name: Upload results (SARIF)
       if: always()
       uses: github/codeql-action/upload-sarif@v3
       with:
-        sarif_file: reports2/report.sarif
+        sarif_file: reports/report.sarif
     
     # Uploads an archive that includes all report files (.xml, .html, .sarif).
     - name: Archive reports
@@ -88,4 +65,4 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: CpptestReports
-        path: reports2/*.*
+        path: reports/*.*
